@@ -1,15 +1,14 @@
 
-AM_CFLAGS=@SDLMIXER_CFLAGS@
+AM_CXXFLAGS=@SDLMIXER_CFLAGS@
 
 EXTRA_DIST=CMakeLists.txt
 
 noinst_LIBRARIES=libpcsound.a
 
 libpcsound_a_SOURCES =                            \
-        pcsound.c           pcsound.h             \
-        pcsound_bsd.c                             \
-        pcsound_sdl.c                             \
-        pcsound_linux.c                           \
-        pcsound_win32.c                           \
-                            pcsound_internal.h
-
+        pcsound.cpp         pcsound.hpp           \
+        pcsound_bsd.cpp                           \
+        pcsound_sdl.cpp                           \
+        pcsound_linux.cpp                         \
+        pcsound_win32.cpp                         \
+                            pcsound_internal.hpp

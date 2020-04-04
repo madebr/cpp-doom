@@ -18,7 +18,7 @@
 #ifndef __BUFFER__
 #define __BUFFER__
 
-#include "../src/doomtype.hpp"
+#include "doomtype.hpp"
 
 #define BUFFER_SIZE 1024
 

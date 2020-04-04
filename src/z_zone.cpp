@@ -249,7 +249,7 @@ void*
 Z_Malloc
 ( int		size,
   int		tag,
-  void*		user )
+  void**	user )
 {
     int		extra;
     memblock_t*	start;

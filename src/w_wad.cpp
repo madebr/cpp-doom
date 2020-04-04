@@ -432,8 +432,8 @@ void *W_CacheLumpNum(lumpindex_t lumpnum, int tag)
     {
         // Not yet loaded, so load it now
 
-        lump->cache = zmalloc<decltype(lump->cache)>(W_LumpLength(lumpnum), tag, &lump->cache);
-	W_ReadLump (lumpnum, lump->cache);
+        lump->cache = zmalloc<void *>(W_LumpLength(lumpnum), tag, &lump->cache);
+	    W_ReadLump (lumpnum, lump->cache);
         result = lump->cache;
     }
 	

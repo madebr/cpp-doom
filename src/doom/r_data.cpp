@@ -36,8 +36,8 @@
 #include "doomstat.hpp"
 #include "r_sky.hpp"
 
-#include "../../utils/lump.hpp"
-#include "../../utils/memory.hpp"
+#include "lump.hpp"
+#include "memory.hpp"
 #include "r_bmaps.hpp" // [crispy] R_BrightmapForTexName()
 #include "r_data.hpp"
 #include "v_trans.hpp" // [crispy] tranmap, CRMAX
@@ -276,7 +276,7 @@ void R_GenerateComposite (int texnum)
 
     block = zmalloc<decltype(block)> (texturecompositesize[texnum],
 		      PU_STATIC, 
-		      &texturecomposite[texnum]);	
+		      &texturecomposite[texnum]);
 
     collump = texturecolumnlump[texnum];
     colofs = texturecolumnofs[texnum];
@@ -420,8 +420,8 @@ void R_GenerateLookup (int texnum)
     //  that are covered by more than one patch.
     // Fill in the lump / offset, so columns
     //  with only a single patch are all done.
-    patchcount = (byte *) Z_Malloc(texture->width, PU_STATIC, &patchcount);
-    postcount = (byte *) Z_Malloc(texture->width, PU_STATIC, &postcount);
+    patchcount = zmalloc<byte *>(texture->width, PU_STATIC, &patchcount);
+    postcount = zmalloc<byte *>(texture->width, PU_STATIC, &postcount);
     memset (patchcount, 0, texture->width);
     memset (postcount, 0, texture->width);
     patch = texture->patches;

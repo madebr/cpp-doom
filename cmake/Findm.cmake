@@ -30,7 +30,8 @@
 
 find_library(M_LIBRARY m)
 
-add_library(m INTERFACE)
+add_library(m UNKNOWN IMPORTED)
 if(M_LIBRARY)
-    target_link_libraries(m INTERFACE "${M_LIBRARY}")
+    set_target_properties(m PROPERTIES
+                          IMPORTED_LOCATION "${M_LIBRARY}")
 endif()

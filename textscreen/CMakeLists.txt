@@ -1,4 +1,4 @@
-add_library(textscreen STATIC
+add_library(textscreen STATIC EXCLUDE_FROM_ALL
             textscreen.hpp
             txt_conditional.cpp   txt_conditional.hpp
             txt_checkbox.cpp      txt_checkbox.hpp
@@ -8,7 +8,7 @@ add_library(textscreen STATIC
             txt_gui.cpp           txt_gui.hpp
             txt_inputbox.cpp      txt_inputbox.hpp
             txt_io.cpp            txt_io.hpp
-                                txt_main.hpp
+                                  txt_main.hpp
             txt_button.cpp        txt_button.hpp
             txt_label.cpp         txt_label.hpp
             txt_radiobutton.cpp   txt_radiobutton.hpp
@@ -22,7 +22,12 @@ add_library(textscreen STATIC
             txt_widget.cpp        txt_widget.hpp
             txt_window.cpp        txt_window.hpp
             txt_window_action.cpp txt_window_action.hpp)
+
 target_include_directories(textscreen
-                           INTERFACE "."
-                           PRIVATE "../src/")
-target_link_libraries(textscreen m SDL2::SDL2)
+    INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}"
+    PUBLIC "${PROJECT_SOURCE_DIR}/src/"
+)
+target_link_libraries(textscreen PUBLIC
+    m
+    SDL2::SDL2
+)

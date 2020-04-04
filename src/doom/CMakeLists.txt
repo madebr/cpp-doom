@@ -1,4 +1,4 @@
-add_library(doom STATIC
+add_executable(doom WIN32
             am_map.cpp        am_map.hpp
             deh_ammo.cpp
             deh_bexincl.cpp
@@ -13,24 +13,24 @@ add_library(doom STATIC
             deh_sound.cpp
             deh_thing.cpp
             deh_weapon.cpp
-                            d_englsh.hpp
+                              d_englsh.hpp
             d_items.cpp       d_items.hpp
             d_main.cpp        d_main.hpp
             d_net.cpp
-                            doomdata.hpp
+                              doomdata.hpp
             doomdef.cpp       doomdef.hpp
             doomstat.cpp      doomstat.hpp
-                            d_player.hpp
+                              d_player.hpp
             dstrings.cpp      dstrings.hpp
-                            d_textur.hpp
-                            d_think.hpp
+                              d_textur.hpp
+                              d_think.hpp
             f_finale.cpp      f_finale.hpp
             f_wipe.cpp        f_wipe.hpp
             g_game.cpp        g_game.hpp
             hu_lib.cpp        hu_lib.hpp
             hu_stuff.cpp      hu_stuff.hpp
             info.cpp          info.hpp
-                            m_background.hpp
+                              m_background.hpp
             m_crispy.cpp      m_crispy.hpp
             m_menu.cpp        m_menu.hpp
             m_random.cpp      m_random.hpp
@@ -44,7 +44,7 @@ add_library(doom STATIC
             p_floor.cpp
             p_inter.cpp       p_inter.hpp
             p_lights.cpp
-                            p_local.hpp
+                              p_local.hpp
             p_map.cpp
             p_maputl.cpp
             p_mobj.cpp        p_mobj.hpp
@@ -61,14 +61,14 @@ add_library(doom STATIC
             r_bmaps.cpp       r_bmaps.hpp
             r_bsp.cpp         r_bsp.hpp
             r_data.cpp        r_data.hpp
-                            r_defs.hpp
+                              r_defs.hpp
             r_draw.cpp        r_draw.hpp
-                            r_local.hpp
+                              r_local.hpp
             r_main.cpp        r_main.hpp
             r_plane.cpp       r_plane.hpp
             r_segs.cpp        r_segs.hpp
             r_sky.cpp         r_sky.hpp
-                            r_state.hpp
+                              r_state.hpp
             r_swirl.cpp       r_swirl.hpp
             r_things.cpp      r_things.hpp
             s_musinfo.cpp     s_musinfo.hpp
@@ -77,7 +77,25 @@ add_library(doom STATIC
             statdump.cpp      statdump.hpp
             st_lib.cpp        st_lib.hpp
             st_stuff.cpp      st_stuff.hpp
-            wi_stuff.cpp      wi_stuff.hpp event_function_decls.hpp)
+            wi_stuff.cpp      wi_stuff.hpp
+                              event_function_decls.hpp
+)
 
-target_include_directories(doom PRIVATE "../" "${CMAKE_CURRENT_BINARY_DIR}/../../")
-target_link_libraries(doom SDL2::SDL2 SDL2::mixer SDL2::net)
+if(WIN32)
+    target_sources(doom
+        "${CMAKE_CURRENT_BINARY_DIR}/../resource.rc"
+    )
+endif()
+
+target_link_libraries(doom PUBLIC
+    gamecommon_dehacked
+)
+
+set_target_properties(doom PROPERTIES
+    OUTPUT_NAME "${PROGRAM_PREFIX}doom"
+)
+
+if(MSVC)
+    set_target_properties("${PROGRAM_PREFIX}doom" PROPERTIES
+                          LINK_FLAGS "/MANIFEST:NO")
+endif()

@@ -1,4 +1,4 @@
-set(STRIFE_SOURCES
+add_executable(strife WIN32
     am_map.cpp        am_map.hpp
     deh_ammo.cpp
     deh_cheat.cpp
@@ -9,17 +9,17 @@ set(STRIFE_SOURCES
     deh_sound.cpp
     deh_thing.cpp
     deh_weapon.cpp
-                    d_englsh.hpp
+                      d_englsh.hpp
     d_items.cpp       d_items.hpp
     d_main.cpp        d_main.hpp
     d_net.cpp
-                    doomdata.hpp
+                      doomdata.hpp
     doomdef.cpp       doomdef.hpp
     doomstat.cpp      doomstat.hpp
-                    d_player.hpp
+                      d_player.hpp
     dstrings.cpp      dstrings.hpp
-                    d_textur.hpp
-                    d_think.hpp
+                      d_textur.hpp
+                      d_think.hpp
     f_finale.cpp      f_finale.hpp
     f_wipe.cpp        f_wipe.hpp
     g_game.cpp        g_game.hpp
@@ -36,7 +36,7 @@ set(STRIFE_SOURCES
     p_floor.cpp
     p_inter.cpp       p_inter.hpp
     p_lights.cpp
-                    p_local.hpp
+                      p_local.hpp
     p_map.cpp
     p_maputl.cpp
     p_mobj.cpp        p_mobj.hpp
@@ -52,22 +52,43 @@ set(STRIFE_SOURCES
     p_user.cpp
     r_bsp.cpp         r_bsp.hpp
     r_data.cpp        r_data.hpp
-                    r_defs.hpp
+                      r_defs.hpp
     r_draw.cpp        r_draw.hpp
-                    r_local.hpp
+                      r_local.hpp
     r_main.cpp        r_main.hpp
     r_plane.cpp       r_plane.hpp
     r_segs.cpp        r_segs.hpp
     r_sky.cpp         r_sky.hpp
-                    r_state.hpp
+                      r_state.hpp
     r_things.cpp      r_things.hpp
     s_sound.cpp       s_sound.hpp
     sounds.cpp        sounds.hpp
     st_lib.cpp        st_lib.hpp
     st_stuff.cpp      st_stuff.hpp
-    wi_stuff.cpp      wi_stuff.hpp)
+    wi_stuff.cpp      wi_stuff.hpp
+)
 
-add_library(strife STATIC ${STRIFE_SOURCES})
+if(WIN32)
+    target_sources(strife
+        "${CMAKE_CURRENT_BINARY_DIR}/../resource.rc"
+    )
+endif()
 
-target_include_directories(strife PRIVATE "../" "../../win32/" "${CMAKE_CURRENT_BINARY_DIR}/../../")
-target_link_libraries(strife textscreen SDL2::SDL2 SDL2::mixer SDL2::net)
+target_include_directories(strife
+    PRIVATE
+        "${PROJECT_SOURCE_DIR}/win32"
+)
+
+target_link_libraries(strife PUBLIC
+    gamecommon_dehacked
+)
+
+set_target_properties(strife PROPERTIES
+    OUTPUT_NAME "${PROGRAM_PREFIX}strife"
+)
+
+if(MSVC)
+    set_target_properties(strife PROPERTIES
+        LINK_FLAGS "/MANIFEST:NO"
+    )
+endif()

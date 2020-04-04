@@ -1,4 +1,4 @@
-add_library(heretic STATIC
+add_executable(heretic WIN32
             am_data.hpp
             am_map.cpp            am_map.hpp
             ct_chat.cpp           ct_chat.hpp
@@ -11,16 +11,16 @@ add_library(heretic STATIC
             deh_weapon.cpp
             d_main.cpp
             d_net.cpp
-                                doomdata.hpp
-                                doomdef.hpp
-                                dstrings.hpp
+                                  doomdata.hpp
+                                  doomdef.hpp
+                                  dstrings.hpp
             f_finale.cpp
             g_game.cpp
             info.cpp              info.hpp
             in_lude.cpp
             m_random.cpp          m_random.hpp
             mn_menu.cpp
-                                p_action.hpp
+                                  p_action.hpp
             p_ceilng.cpp
             p_doors.cpp
             p_enemy.cpp
@@ -44,14 +44,32 @@ add_library(heretic STATIC
             r_bsp.cpp
             r_data.cpp
             r_draw.cpp
-                                r_local.hpp
+                                  r_local.hpp
             r_main.cpp
             r_plane.cpp
             r_segs.cpp
             r_things.cpp
             sb_bar.cpp
             sounds.cpp            sounds.hpp
-            s_sound.cpp           s_sound.hpp)
+            s_sound.cpp           s_sound.hpp
+)
 
-target_include_directories(heretic PRIVATE "../" "${CMAKE_CURRENT_BINARY_DIR}/../../")
-target_link_libraries(heretic textscreen SDL2::SDL2 SDL2::mixer SDL2::net)
+if(WIN32)
+    target_sources(heretic PRIVATE
+        "${CMAKE_CURRENT_BINARY_DIR}/../resource.rc"
+    )
+endif()
+
+target_link_libraries(heretic PUBLIC
+    gamecommon_dehacked
+)
+
+set_target_properties(heretic PROPERTIES
+    OUTPUT_NAME "${PROGRAM_PREFIX}heretic"
+)
+
+if(MSVC)
+    set_target_properties(heretic PROPERTIES
+        LINK_FLAGS "/MANIFEST:NO"
+    )
+endif()
